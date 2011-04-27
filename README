@@ -1,0 +1,38 @@
+Este projeto tem como objetivo fazer algumas estatisticas com o envio recebimento dos e-mails pelo Nagios.
+
+## nagios.py
+Seu principal objetivo é importar e-mails em formato de texto num arquivo único (típico do cliente de e-mails Mutt) e importar algumas informações importantes, como:
+- Data do evento
+- Titulo do e-mail
+- Host afetado
+- Serviço afetado
+
+Todas as informações vão para uma base SQLite3.
+* Dependências para Python: sqlite3
+
+## nagios-charts.py
+Este programa é responsável por consultar os dados e criar gráficos através do Google Charts API (vide http://code.google.com/apis/chart/) utilizando o módulo para Python, pygooglechart.
+
+Cada função tem como objetivo criar um tipo de gráfico com tipos de dados diferentes:
+- grafico_todos_emails():	Er, bem, isso não cria um gráfico, só mostra quantos e-mails foram utilizados para a construção das estatísticas.
+
+- grafico_emails_por_dia():	Gráfico do tipo linhas que indica a quantidade de e-mails recebidos a cada dia.
+
+- grafico_servicos():		Gráfico do tipo pizza que indica a quantidade de serviços dos quais foram mais avisados por e-mail.
+
+- grafico_servidores():		Gráfico do tipo pizza que indica a quantidade de servidores dos quais foram mais avisados por e-mail.
+
+- grafico_tipos_de_alerta():	Gráfico do tipo pizza que indica a quantidade de tipos de alerta (PROBLEM, ACKNOWLEDGEMENT, RECOVERY, HOST DOWN ou HOST UP) dos quais foram mais avisador por e-mail.
+
+Algumas dessas funções contam com a função criar_grupos_de_dados() que permite criar um grupo a parte, por exemplo, 'Outros' para todos os dados que contiverem menos que um limite estipulado. Ou seja, em grafico_servidores() todos os servidores que não emitiram pelo menos 25 e-mails irão para o grupo 'Outros', onde esses valores serão acumulados.
+
+
+
+Basicamente é isso. Há alguns TODOs ainda:
+- A base de dados não é incremental, a cada nova 'alimentação' é preciso recriá-la, porque ainda não há um mecanismo que identifique quais mensagens já foram adicionadas.
+
+
+-- 26 de abril de 2011
+
+Leandro Toledo de Souza
+http://leandrotoledo.com.br
